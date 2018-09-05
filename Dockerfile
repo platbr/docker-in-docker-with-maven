@@ -39,5 +39,11 @@ RUN add-apt-repository \
 RUN apt-get update
 RUN apt-get install -y docker-ce
 
-ENTRYPOINT ["/usr/local/bin/mvn-entrypoint.sh"]
+VOLUME /var/lib/docker
+EXPOSE 2375
+
+COPY dockerd-entrypoint.sh /usr/local/bin/mvn-entrypoint.sh
+RUN chmod +x /usr/local/bin/dockerd-entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/dockerd-entrypoint.sh"]
 CMD ["mvn"]
